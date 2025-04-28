@@ -75,7 +75,22 @@ app.put('/workexperience/:id', async (req, res) => {
 });
 
 app.delete('/workexperience/:id', async (req, res) => {
+    const id = req.params.id; 
+    
+    try {
+        const [result] = await db.query(`
+            DELETE FROM workexperience WHERE id = ?
+            `, [id]
+        );
 
+        if (result.affectedRows === 0) {
+            return res.status(404).send("ID hittades inte!");
+        }
+        res.status(200).send("Erfarenhet raderad!");
+
+    } catch (error) {
+        res.status(500).send("Fel vid borttagning!");
+    }
 });
 
 app.listen(port, () => {
