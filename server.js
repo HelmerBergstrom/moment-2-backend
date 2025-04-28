@@ -10,23 +10,25 @@ const port = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-app.get('/workexperience', async (req, res) => {
+app.get('/workexperience', (req, res) => {
     try {
-        const [rows] = await db.execute('SELECT * FROM workexperience');
+        const [rows] = db.query('SELECT * FROM workexperience');
         res.json(rows);
     } catch (error) {
         res.status(500).send("Fel vid hämtning av arbeten: " + error);
     }
 });
 
-app.post('/workexperience', async (req, res) => {
-    const { companyname, jobtitle, location, startdate, enddate, description } = req.body;
+app.post('/workexperience', (req, res) => {
+    let companyname = req.body.companyname;
+    let jobtitle = req.body.jobtitle;
+    let location = req.body.location;
 
-    if (!companyname || !jobtitle || !location || !startdate || !enddate || !description) {
-        return res.status(400).send("Alla fält måste fyllas i!");
+    if(!companyname || !jobtitle || !location) { 
+        return res.status(400).send("Send companyname, jobtitle and location atleast!");
     }
     try {
-        const [result] = await db.execute(
+        const [result] = db.query(
             `INSERT INTO workexperience (
                 companyname, jobtitle, location, startdate, enddate, description
             ) VALUES (?, ?, ?, ?, ?, ?)`,

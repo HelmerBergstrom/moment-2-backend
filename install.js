@@ -42,4 +42,4 @@ connection.query(` CREATE TABLE IF NOT EXISTS workexperience (
 //     console.log("Table workexperience dropped: " + results);
 // })
 
-module.exports = connection;
+module.exports = connection.promise();
