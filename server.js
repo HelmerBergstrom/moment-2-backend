@@ -47,7 +47,31 @@ app.post('/workexperience', async (req, res) => {
 });
 
 app.put('/workexperience/:id', async (req, res) => {
+    const id = req.params.id;
+    const { companyname, jobtitle, location, startdate, enddate, description } = req.body;
 
+    if (!companyname || !jobtitle || !location || !startdate || !enddate || !description) { 
+        return res.status(400).send("Send companyname, jobtitle, location, startdate, enddate, and description!");
+    }
+
+    try {
+        const [result] = await db.query(`
+            UPDATE workexperience
+            SET companyname = ?, jobtitle = ?,
+            location = ?, startdate = ?,
+            enddate = ?, description = ?
+            WHERE id = ?`, 
+            [companyname, jobtitle, location, startdate, enddate, description, id]
+        );
+        
+        // Påverkas inga rader finns inte ID:t
+        if(result.affectedRows === 0) {
+            return res.status(404).send("ID hittades inte!")
+        }
+        res.status(200).send({ message: "Erfarenhet uppdaterad!"});
+    } catch(error) {
+        res.status(500).send("Fel vid uppdatering!")
+    }
 });
 
 app.delete('/workexperience/:id', async (req, res) => {
