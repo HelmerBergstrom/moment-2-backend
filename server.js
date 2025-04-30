@@ -40,6 +40,7 @@ app.post('/workexperience', async (req, res) => {
         return res.status(400).json({ message: "Send companyname, jobtitle, location, startdate, enddate, and description!"});
     }
     try {
+        res.json({ message: "Lägger till erfarenhet! "})
         // SQL-fråga för att lägga till i tabellen.
         const [result] = await db.query(
             `INSERT INTO workexperience (
@@ -66,6 +67,7 @@ app.put('/workexperience/:id', async (req, res) => {
     }
 
     try { // SQL-fråga för att uppdatera en erfarenhet.
+        res.json({ message: "Uppdaterar befintlig erfarenhet! "})
         const [result] = await db.query(`
             UPDATE workexperience
             SET companyname = ?, jobtitle = ?,
@@ -90,6 +92,7 @@ app.delete('/workexperience/:id', async (req, res) => {
     const id = req.params.id; 
     
     try { // SQL-fråga för att radera en erfarenhet utifrån id:t.
+        res.json({ message: "Raderar erfarenhet med id: " + id})
         const [result] = await db.query(`
             DELETE FROM workexperience WHERE id = ?
             `, [id]
