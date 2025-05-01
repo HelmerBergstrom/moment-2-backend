@@ -44,4 +44,10 @@ Datan behandlas i JSON-format med följande struktur:
 
 Vill du inte använda dig av tiden i datumsträngarna? Använd metoden slice(0, 10) i din JavaScript-kod för att ta bort.
 
+Exempel på hur koden kan se ut:
+
+```javascript
+const formattedDate = dateString.slice(0, 10);
+```
+
 Med denna kod kommer datumen se ut som följande: "2020-01-01".
