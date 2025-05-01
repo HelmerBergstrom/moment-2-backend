@@ -31,7 +31,7 @@ För att nå detta API kan man använda följande metoder:
 - DELETE - /workexperience/:id - Raderar en erfarenhet.
 
 Datan behandlas i JSON-format med följande struktur:
-
+```json
 [{
     "id":1,
     "companyname":"Test AB",
@@ -41,7 +41,7 @@ Datan behandlas i JSON-format med följande struktur:
     "enddate":"2020-01-02T22:00:00.000Z",
     "description":"Testare"
 }]
-
+```
 Vill du inte använda dig av tiden i datumsträngarna? Använd metoden slice(0, 10) i din JavaScript-kod för att ta bort.
 
 Exempel på hur koden kan se ut:
