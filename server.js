@@ -21,7 +21,7 @@ app.get('/workexperience', async (req, res) => {
         }
         res.json(rows); // Skickar tillbaka raderna i json-format.
     } catch (error) {
-        res.status(500).json({ message: "Fel vid hämtning av arbeten: " + error });
+        res.status(500).json({ message: "Fel vid hämtning av erfarenheter: " + error });
     }
 });
 
@@ -37,7 +37,7 @@ app.post('/workexperience', async (req, res) => {
 
     // if-sats för att kontrollera att allt blivit ifyllt.
     if (!companyname || !jobtitle || !location || !startdate || !enddate || !description) { 
-        return res.status(400).json({ message: "Send companyname, jobtitle, location, startdate, enddate, and description!"});
+        return res.status(400).json({ message: "Fyll i samtliga fält!"});
     }
     try {
         // SQL-fråga för att lägga till i tabellen.
@@ -62,7 +62,7 @@ app.put('/workexperience/:id', async (req, res) => {
     const { companyname, jobtitle, location, startdate, enddate, description } = req.body;
 
     if (!companyname || !jobtitle || !location || !startdate || !enddate || !description) { 
-        return res.status(400).json({ message: "Send companyname, jobtitle, location, startdate, enddate, and description!"});
+        return res.status(400).json({ message: "Fyll i samtliga fält!"});
     }
 
     try { // SQL-fråga för att uppdatera en erfarenhet.
