@@ -1,34 +1,49 @@
 # MOMENT 2 - Introduktion till webbtjänster
 
-### Starten
-Jag började arbetet med att ladda ned och konfiguera verktyg som skulle komma att användas till uppgiften. Jag tänkte först använda PostgreSQL, men valde snabbt att ändra till försöka på nytt med MySQL. Förra uppgiften i kursen körde jag på MySQL till allt egentligen var färdigt, men sedan uppkom problem med publiceringen som gjorde att jag bytte till PostgreSQL för att kunna publicera arbetet.
+## API - Någon liveversion finns ej!
 
-Jag märkte lite senare att jag laddade ned mysql2 istället för mysql bara och detta gjorde att lite nya saker uppkom. Det som jag kom fram till är att mysql2 kräver att man kör promises och async/await. Kan ha helt fel i detta, men det fungerade iallafall efter jag skrev med det i koden. 
+### Installation, databas
 
-Jag tillämpade förutom databashanteraren express, cors, dotenv och middlewares. 
+APIet använder MySQL som databas.
+Klona ned källkodsfilerna, skriv "npm install" följt av de npm-paket som är nödvändiga att installera. Kör sedan koden "node server" i terminalen för att starta. Det som skapas när du kör "node server" är:
 
-### Install.js
-Jag bestämde mig för att köra på samma upplägg som jag gjorde i moment 1, med en JavaScript-fil för att ansluta till databasen och en fil för routes osv. Detta känns som det mest lämpliga sättet när man jobbar med lite mindre uppgifter, då koden blir uppdelad och för att man lättare kan hantera den enligt min uppfattning.
+- En databas med namnet: cv2
+- En tabell med namnet: workexperience
 
-Jag skapade i samband med uppstarten av install.js-filen en env-fil med de hemliga nycklarna för att komma åt databasen. Efter det skapade jag en koppling till databasen med dessa variabler.
+Tabellen innehåller raderna:
 
-I install.js-filen skapade jag databasen med namnet "cv2" och tabellen "workexperience". Jag skrev även kod för att ta bort tabellen ifall det skulle behövas, men det kommenterade jag direkt bort för att undvika att den körs varje gång man startar servern.
+- id INT AUTO_INCREMENT PRIMARY KEY,
+- companyname VARCHAR(200),
+- jobtitle VARCHAR(200),
+- location VARCHAR(200),
+- startdate DATE,
+- enddate DATE,
+- description VARCHAR(300)
 
-### Server.js
-I denna fil skapade jag routes för get, post, put och delete. Dessa routes skapades asynkront och med try/catch. 
+### Användning 
 
-Innan dessa routes skapade jag en "app.listen" för att skriva ut länken dit servern körs på. Jag körde på port 3000 ett ganska långt tag innan jag insåg att det inte fungerade. Jag fick felmeddelande om att hemsidan inte fick tag på mina routes. När jag senare i arbetet ändrade till port 3000 fungerade detta.
+För att nå detta API kan man använda följande metoder:
 
-I min get-route hämtar jag alla arbetserfarenheter via en SQL-fråga och skickar tillbaka datan i JSON-format. Finns inte erfarenheter skickas en tom array tillbaka.
+GET - /workexperience - Hämtar alla erfarenheter.
+GET - /workexperience/:id - Hämtar en specifik erfarenhet med id:t i frågan.
+POST - /workexperience - Lagrar en ny erfarenhet.
+PUT - /workexperience/:id - Ändrar en befintlig erfarenhet.
+DELETE - /workexperience/:id - Raderar en erfarenhet.
 
-I min post-route lagrar jag först alla raders namn i databasen som variabler. Därefter en if-sats för att kontrollera att allt är ifyllt. Nedan detta kör jag en try/catch för att lägga till en erfarenhet i databasen. 
+Datan behandlas i JSON-format med följande struktur:
 
-Dessa två routes har sökvägen "/workexperience"
+[{
+    "id":19,
+    "companyname":"Test AB",
+    "jobtitle":"Testare",
+    "location":"Jorden",
+    "startdate":"2020-01-01T23:00:00.000Z",
+    "enddate":"2020-01-02T22:00:00.000Z",
+    "description":"Testare"
+}]
 
-I min put-route är sökvägen densamma som de två första, men här lägger jag till /:id efter för att dessa routes ska pricka ut en enskild erfarenhet. I put-routen lagrar jag först id:t som en variabel, detta genom att pricka ut där id:t ligger, vilket är i "req.params.id". Därefter deklarerar jag variabler för samtliga raders namn i databasen.
+Vill du inte använda dig av tiden i datumsträngarna? Använd denna metod i din JavaScript-kod för att ta bort det:
 
-Här körs sedan en SQL-fråga för att uppdatera en erfarenhet.
+##### slice(0, 10)
 
-I denna route körs en if-sats som kontrollerar om rader påverkas. Om rader inte påverkas när man kör en UPDATE finns inte ID:t. Detta körs även i delete-routen. 
-
-Delete-routen är lik den förra med undantag för själva SQL-frågan. Här körs en SQL-fråga för att ta bort en erfarenhet utifrån ID:t i URL:en.
+Med denna kod kommer datumen se ut som följande: "2020-01-01".
