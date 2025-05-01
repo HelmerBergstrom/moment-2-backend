@@ -24,16 +24,16 @@ Tabellen innehåller raderna:
 
 För att nå detta API kan man använda följande metoder:
 
-GET - /workexperience - Hämtar alla erfarenheter.
-GET - /workexperience/:id - Hämtar en specifik erfarenhet med id:t i frågan.
-POST - /workexperience - Lagrar en ny erfarenhet.
-PUT - /workexperience/:id - Ändrar en befintlig erfarenhet.
-DELETE - /workexperience/:id - Raderar en erfarenhet.
+- GET - /workexperience - Hämtar alla erfarenheter.
+- GET - /workexperience/:id - Hämtar en specifik erfarenhet med id:t i frågan.
+- POST - /workexperience - Lagrar en ny erfarenhet.
+- PUT - /workexperience/:id - Ändrar en befintlig erfarenhet.
+- DELETE - /workexperience/:id - Raderar en erfarenhet.
 
 Datan behandlas i JSON-format med följande struktur:
 
 [{
-    "id":19,
+    "id":1,
     "companyname":"Test AB",
     "jobtitle":"Testare",
     "location":"Jorden",
@@ -42,8 +42,6 @@ Datan behandlas i JSON-format med följande struktur:
     "description":"Testare"
 }]
 
-Vill du inte använda dig av tiden i datumsträngarna? Använd denna metod i din JavaScript-kod för att ta bort det:
-
-##### slice(0, 10)
+Vill du inte använda dig av tiden i datumsträngarna? Använd metoden slice(0, 10) i din JavaScript-kod för att ta bort.
 
 Med denna kod kommer datumen se ut som följande: "2020-01-01".
